@@ -23,13 +23,25 @@ app.post("/send-location", async (req, res) => {
     minute: "2-digit",
     hour12: false, // ou true se quiser 12h com AM/PM
   };
-  
+  const webhookTeams = 'https://liberfly.webhook.office.com/webhookb2/6f36c4e6-d09b-43c9-8525-949242335332@aed8f6aa-180a-45d5-9067-9f6e6ad5ac7d/IncomingWebhook/faa24cb8d86d4334a9cca834e6747625/2c3f85c3-ecca-4aaa-8fd7-e79d969cc838/V2FkS_wm-qtmODWS17X1yKjMlVt-oMWilz3aoRdLaafkg1'
   const horaBrasilia = data.toLocaleTimeString("pt-BR", opcoes);
-
   const message = `Localização do usuário: ${horaBrasilia} - https://www.google.com.br/maps/place/${latitude},${longitude}`;
 
   try {
     
+    const response = await axios.post(webhookTeams, {
+      text: message,
+    }, { headers: {
+      "Content-Type": "application/json"
+    },
+  })
+
+    if (!response.ok) {
+      return
+    }
+
+    console.log('Mensagem enviada com sucesso');
+
     console.log(message);
     res.status(200).json({ success: true });
   } catch (error) {
