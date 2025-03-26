@@ -33,11 +33,7 @@ app.post("/send-location", async (req, res) => {
       text: message,
     })
 
-    if (!response.ok) {
-      return
-    }
-
-    console.log('Mensagem enviada com sucesso');
+    console.log('Mensagem enviada com sucesso', response.data);
 
     console.log(message);
     res.status(200).json({ success: true });
