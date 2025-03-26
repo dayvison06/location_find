@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-app.post("/send-location", async (req, res) => {
+app.post("https://docspessoais.vercel.app/send-location", async (req, res) => {
   const { latitude, longitude } = req.body;
 
   const data = new Date();
