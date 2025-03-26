@@ -31,10 +31,7 @@ app.post("/send-location", async (req, res) => {
     
     const response = await axios.post(webhookTeams, {
       text: message,
-    }, { headers: {
-      "Content-Type": "application/json"
-    },
-  })
+    })
 
     if (!response.ok) {
       return
