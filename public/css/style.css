@@ -1,0 +1,864 @@
+/*----------------Icons Color------------|START---------*/
+:root{
+	--cloud-color:#2196F3;
+	--folder-color:#F7D774;
+}
+/*----------------Icons Color------------|END---------*/
+*{
+	-webkit-box-sizing:border-box;
+	        box-sizing:border-box;
+}
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+*{
+	box-sizing:border-box;
+}
+body{
+	font-family: 'Lato', sans-serif;
+	color:#333;
+	font-size:14px;
+	line-height:1.2;
+	margin:0;
+	-webkit-tap-highlight-color: transparent;
+	user-select:none;
+}
+[clear]:before,[clear]:after{
+	content:"";
+	clear:both;
+	display:block;
+}
+.cm-address-bar-search {
+    height: 50px;
+}
+
+.user-data-area {
+    height: 20px;
+    background: #343A40;
+    padding: 2px 10px;
+    color: #fff;
+    user-select: none;
+}
+.user-data-area > div.login-cloud {
+    float: right;
+    padding-left: 20px;
+    cursor: pointer;
+}
+.cloud-manager {
+    height: calc(100vh - 70px);
+    background: #f9f9f9;
+    border-top: 1px solid #e3e3e3;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.cloud-manager ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: block;
+    padding-bottom: 10px;
+}
+.cloud-manager ul li {
+    vertical-align: top;
+    float: left;
+}
+.cloud-manager ul li:after,.cloud-manager ul li:before {
+	content:"";
+	clear:both;
+	display:block;
+}
+.cloud-manager ul li .data-block {
+	text-align: center;
+	transition: transform 0.2s linear;
+	display: block;
+	width: 80px;
+}
+.cloud-manager ul li .data-block .data-name {
+    display: block;
+    margin-top: 5px;
+	font-size: 12px;
+    font-weight: 700;
+}
+.cloud-manager ul li .data-block svg {
+    font-size: 25px;
+    cursor: pointer;
+}
+.cloud-manager ul.active-folder > li > .data-block {
+    width: 100% !important;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 10px;
+    padding: 0 15px;
+    color: #444;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    z-index: 9;
+    font-weight: 600;
+	font-size: 14px !important;
+}
+.cloud-manager ul.active-folder > li > .data-block > .data-name {
+    margin: 0;
+}
+.cloud-manager ul li[data-type="folder"] > .data-block svg {
+    color:var(--folder-color);
+}
+.cloud-manager ul li[data-type="cloud"] > .data-block svg {
+    color:var(--cloud-color);
+}
+.cloud-manager .active-folder > li > .data-block > svg {
+    display: none;
+}
+.cloud-manager .active-folder > li > .data-block > svg {
+    display: inline-block;
+    font-size: 15px !important;
+    margin-right: 8px;
+}
+.cloud-manager .active-folder > li > .data-block > .data-name {
+    display: inline-block;
+}
+.cloud-manager li > .data-block .cm-folder-back {
+    display: none;
+}
+.cloud-manager .active-folder > li > .data-block .cm-folder-back {
+    display: block;
+}
+/*---------Flex Model CSS---------|START--------*/
+.cm-model-wrapper {
+    position: fixed;
+    width: calc(100vw + 17px);
+    height: 100vh;
+    top: 0;
+    left: 0;
+    overflow-y: scroll;
+    display: none;
+    z-index: -1;
+}
+.cm-model-wrapper.model-wrap-open {
+	display: block;
+	z-index: 999999;
+}
+[modal-data] {
+	width: 100%;
+	max-width: 540px;
+	left: 50%;
+	-webkit-transform: translatex(-50%) scale(0);
+	    -ms-transform: translatex(-50%) scale(0);
+	        transform: translatex(-50%) scale(0);
+	position: absolute;
+	top: 10%;
+	background:#fff;
+	z-index: 9;
+	border: 1px solid #c4c4c4;
+	-webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+	-webkit-transition: all 0.1s linear;
+	-o-transition: all 0.1s linear;
+	transition: all 0.1s linear;
+	pointer-events: none;
+	visibility: hidden;
+	opacity: 0;
+}
+.cm-project-setting-inner-wrapper {
+    padding: 10px 20px;
+}
+[modal-data].modal-open {
+	-webkit-transform: translatex(-50%) scale(1);
+	    -ms-transform: translatex(-50%) scale(1);
+	        transform: translatex(-50%) scale(1);
+	opacity: 1;
+	visibility: visible;
+	pointer-events: all;
+}
+.modals-overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.4);
+	z-index: 9;
+	visibility: hidden;
+	pointer-events: none;
+	opacity: 0;
+}
+.modals-overlay.overlay-open {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: all;
+	z-index: 999999;
+}
+[modal-data]{
+	font-family: 'Open Sans', sans-serif;
+}
+[modal-data] .cm-project-modal-header {
+    padding: 5px 10px;
+    position: relative;
+    text-align: left;
+    background: #f1f1f1;
+    background: -webkit-linear-gradient(top,#f7f7f7,#eaeaea);
+    background: linear-gradient(to bottom,#f7f7f7,#eaeaea);
+    border-radius: 4px 4px 0 0;
+    border-bottom: 1px solid #cdcdcd;
+    border-bottom-color: rgba(0,0,0,.2);
+    box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 0 -1px 0 rgba(255,255,255,.4) inset;
+    color: rgb(17, 17, 17);
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 16px;
+}
+
+[modal-data] .cm-project-modal-footer {
+    padding: 5px 10px;
+    font-size: 13px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background: -webkit-linear-gradient(top,#f7f7f7,#eaeaea);
+    background: linear-gradient(to bottom,#f7f7f7,#eaeaea);
+    border-bottom-color: rgba(0,0,0,.2);
+    box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 0 -1px 0 rgba(255,255,255,.4) inset;
+    color: rgb(17, 17, 17);
+    font-weight: 700;
+    line-height: 16px;
+    border-top: 1px solid rgba(0,0,0,.2);
+}
+[modal-data] .form-action-box button {
+    margin: 0;
+}
+[modal-data] .cm-project-setting-inner-wrapper label {
+	display: block;
+	padding: 2px 0;
+	font-weight: 600;
+	color: rgb(90, 90, 90);
+	font-size: 12px;
+	line-height: 18px;
+}
+
+[modal-data] .cm-project-setting-inner-wrapper label span {
+    display: block;
+    font-size: 10px;
+}
+[modal-data] .cm-project-setting-inner-wrapper label i {
+    font-size: 12px;
+    font-style: normal;
+    position: relative;
+    top: -5px;
+    margin: 0px 5px;
+}
+[modal-data] .cm-project-setting-inner-wrapper input, [modal-data] .cm-project-setting-inner-wrapper select, [modal-data] .cm-project-setting-inner-wrapper textarea {
+    margin: 2px 0;
+    padding: 5px;
+    width: 100%;
+    outline: 0;
+    max-width: 500px;
+    color: #333;
+    box-shadow: 0 1px 0 rgba(255,255,255,.5), 0 1px 0 rgba(0,0,0,.07) inset;
+    border: 1px solid #c4c4c4;
+}
+[modal-data] .cm-project-setting-inner-wrapper textarea {
+	height: 100px;
+	resize: none;
+}
+[modal-data] .advanced.setting-inner {
+    padding: 10px 0;
+    width: 100%;
+    overflow: hidden;
+    cursor: pointer;
+}
+[modal-data] .advanced.setting-inner span.more-setting {
+    float: left;
+    position: relative;
+    background: #fff;
+    padding-right: 10px;
+    font-size: 12px;
+}
+[modal-data] .advanced.setting-inner span.more-setting:before {
+    content: "";
+    height: 1px;
+    width: 525px;
+    position: absolute;
+    background: #a9a9a9;
+    top: 8px;
+    z-index: -1;
+}
+[modal-data] .advanced.setting-inner svg {
+    float: right;
+    cursor: pointer;
+    background: #ffffff;
+    position: relative;
+    top: 1px;
+    right: -4px;
+    width: 20px;
+    height: 15px;
+}
+[modal-data] .advanced.setting-inner.adv-open svg {
+    transform: rotate(90deg);
+    width: 20px;
+    right: -3px;
+    height: 15px;
+}
+[modal-data] .cm-adv-form-wrapper {
+    display: none;
+}
+[modal-data] .btn-def {
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    display: inline-block;
+    padding: 4px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    color: #595959;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    background-color: #f3f3f3;
+    background-image: -webkit-gradient( linear, 0 0, 0 100%, from(#fbfbfb), to(#e7e7e7) );
+    background-image: -webkit-linear-gradient(top, #fbfbfb, #e7e7e7);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#e7e7e7));
+    background-image: -o-linear-gradient(top, #fbfbfb, #e7e7e7);
+    background-image: linear-gradient(to bottom, #fbfbfb, #e7e7e7);
+    background-repeat: repeat-x;
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#fffbfbfb', endColorstr='#ffe7e7e7', GradientType=0 );
+    border-color: #e7e7e7 #e7e7e7 #c0c0c0;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    filter: progid: DXImageTransform.Microsoft.gradient(enabled=false);
+    border: 1px solid #ccc;
+    border-bottom-color: #b3b3b3;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+    outline: 0;
+    margin: 10px 0;
+}
+@-webkit-keyframes rotation {
+		from {
+				-webkit-transform: rotate(0deg);
+		}
+		to {
+				-webkit-transform: rotate(359deg);
+		}
+}
+[modal-data] .btn-def.loading {
+    color: transparent;
+    font-size: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+[modal-data] .btn-def.loading:before {
+    content: "\f01e";
+    color: #333333;
+    font: normal normal normal 16px/1 FontAwesome;
+    -webkit-animation: rotation 1s infinite linear;
+}
+[modal-data] .drag {
+    cursor: move !important;
+}
+[modal-data] .btn-def {
+    float: left;
+    margin-left: 10px !important;
+}
+/*---------Flex Model CSS---------|END--------*/
+/*-------------Back Button------------------|Start----------*/
+.cloud-manager ul.active-folder > li > .data-block .cm-folder-back {
+    float: left;
+    font-size: 8px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    padding: 10px 10px;
+    margin-left: -15px;
+    background: #cacaca;
+}
+.cloud-manager ul.active-folder > li > .data-block .cm-folder-back svg {
+    font-size: 16px !important;
+    color: #656565;
+}
+.cloud-manager ul.active-folder > li > .data-block{
+	background:transparent !important;
+	cursor:default;
+}
+/*-------------Back Button------------------|END----------*/
+/*.cloud-manager > ul > li > .data-block > .cm-folder-back {
+    display: none !important;
+}*/
+/*------------Basic Explorer Functionality--------------------|START----------*/
+.cloud-manager ul.active-folder > li.show-folder > .empty-text {
+    display: block;
+}
+.cloud-manager ul.empty-text {
+    display: none;
+}
+.cloud-manager ul.active-folder > li.hide-folder > .data-block {
+    display: none;
+}
+.cloud-manager ul li.hide-folder > span {
+    display: none;
+}
+.cloud-manager ul.active-folder > li > ul {
+    padding-top: 40px;
+}
+.cloud-manager ul li .data-block:active{
+    transition:transform 0.2s linear;
+}
+.cloud-manager ul.active-folder > li > .data-block {
+    transform: scale(1) !important;
+}
+.cloud-manager ul li .data-block:active{
+    transform:scale(0.9);
+}
+/*------------Basic Explorer Functionality--------------------|END----------*/
+/*------------Select & Rename--------------------|START----------*/
+.cloud-manager ul li > .data-block {
+    padding: 10px 0;
+}
+.cloud-manager ul li.select > .data-block {
+    background: #03a9f42e !important;
+    outline: 1px solid #03A9F4 !important;
+}
+.cloud-manager ul li.data-moving > .data-block {
+    opacity: 0.5;
+}
+.cloud-manager ul.active-folder > li > .data-block{
+	opacity:1 !important;
+}
+.cloud-manager ul li.renaming > span > .data-name {
+    border: 1px solid #a9a9a9;
+}
+.cloud-manager ul li> span > .data-name {
+    border: 1px solid transparent;
+    outline: 0;
+}
+/*------------Select & Rename--------------------|END----------*/
+/*-------------Folder Context Menu---------|START---*/
+.append-option-box {
+    position: fixed;
+    background: #fff;
+    border: 1px solid #b1b1b1;
+    box-shadow: 0 1px 1px #0000003d;
+    padding: 5px 0;
+    width: 200px;
+    top: 45px;
+    z-index: 999;
+    left: 57px;
+}
+.append-option-box>div>div {
+    padding: 2px 15px;
+	cursor:pointer;
+	    position: relative;
+}
+.append-option-box>div>div:hover {
+    background: #2196F3;
+    color: #fff;
+}
+.append-option-box>div>div>svg {
+    position: absolute;
+    right: 8px;
+    font-size: 10px;
+    top: 5px;
+    opacity: 0.5;
+}
+.append-option-box>div>div .main-sub-menu {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background: #fff;
+    border: 1px solid #b1b1b1;
+    box-shadow: 0 1px 1px #0000003d;
+    width: 150px;
+    display: none;
+    color: #000;
+}
+.append-option-box>div>div:hover .main-sub-menu {
+    display: block;
+}
+.append-option-box>div>div:hover {
+    background: #2196F3;
+    color: #fff;
+}
+.append-option-box>div>div:hover .main-sub-menu>div {
+    padding: 2px 10px;
+}
+.append-option-box>div>div:hover .main-sub-menu>div:hover {
+    background: #2196F3;
+    color: #fff;
+}
+/*-------------Folder Context Menu---------|END---*/
+/*-------------Small Medium Large-------------|START---------*/
+.cloud-manager ul li > .data-block:hover {
+    background: #0000002b;
+    cursor: pointer!important;
+}
+.cloud-manager.medium ul li[data-type="cloud"] > .data-block svg {
+    font-size: 35px;
+}
+.cloud-manager.medium ul li .data-name {
+    font-size: 15px;
+}
+.cloud-manager.medium ul li .data-block {
+    width: 90px;
+}
+.cloud-manager.large ul li > .data-block svg {
+    font-size: 45px;
+}
+.cloud-manager.large ul li .data-name {
+    font-size: 16px;
+}
+.cloud-manager.large ul li .data-block {
+    width: 100px;
+}
+.cloud-manager ul.active-folder > li.select > .data-block {
+    background: transparent !important;
+    outline: 0 !important;
+}
+.cloud-manager ul.active-folder > li.show-folder > .empty-text:before {
+    content: "This folder has no items.";
+}
+.cloud-manager ul.active-folder > li > .data-block {
+    transition: none !important;
+}
+/*-------------Small Medium Large-------------|END---------*/
+/*---------Top File Manager Bar------------|START---------*/
+.cm-address-bar-search > div.address-search {
+    width: 60%;
+}
+.cm-address-bar-search > div {
+    float: left;
+    padding: 10px;
+}
+.cm-address-bar-search div.pos {
+    position: relative;
+    overflow: hidden;
+}
+.cm-address-bar-search > div input {
+    width: 100%;
+    padding: 5px;
+    padding-right: 35px;
+    background: #fff;
+    outline: 0;
+    height: 30px;
+    border: 1px solid #dedede;
+	border-radius: 3px;
+}
+.cm-address-bar-search div.pos .cm-button {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    padding: 6px 11px;
+    background: #ffffff;
+    cursor: pointer;
+    color: #00000082;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    z-index: 9;
+}
+.address-short-btn {
+    position: absolute;
+    height: 28px;
+    overflow: hidden;
+    top: 1px;
+    background: #fff;
+    left: 1px;
+    white-space: nowrap;
+    user-select: none;
+}
+.address-short-btn > div {
+    float: left;
+    padding: 7px 4px;
+    height: 28px;
+    cursor: pointer;
+}
+
+.address-short-btn > div svg {
+    margin-left: 9px;
+}
+
+.address-short-btn > div:last-child svg {
+    display: none;
+}
+.address-short-btn > div svg {
+    color: #00000045;
+}
+.address-short-btn > div svg {
+    color: #00000045;
+}
+.address-short-btn > div:hover {
+    background: #d9d9d9;
+}
+.cm-address-bar-search > div.search-file-and-folder {
+    width: calc(40% - 150px);
+}
+.uploads-folder-files {
+    width: 150px;
+}
+.upload-btn-wrapper {
+    text-align: center;
+}
+button.upload {
+    background: #2196f3;
+    color: #fff;
+    border: 0;
+    padding: 7px 15px;
+    display: inline-block;
+    height: 30px;
+    cursor: pointer;
+    box-shadow: 0px 1px 1px #0000005e;
+    outline: 0;
+    border-radius: 3px;
+	user-select:none;
+}
+button.upload:active {
+    box-shadow: 1px 2px 1px #0000005e;
+}
+button.upload svg {
+    margin-right: 5px;
+}
+.upload.loading {
+    color: transparent;
+}
+button.upload.loading svg.fa-circle-notch {
+    color: #fff;
+    position: absolute;
+    margin: 0;
+    -webkit-animation: rotating 1s linear infinite;
+    -moz-animation: rotating 1s linear infinite;
+    -ms-animation: rotating 1s linear infinite;
+    -o-animation: rotating 1s linear infinite;
+    animation: rotating 1s linear infinite;
+    left: 0;
+    right: 0;
+    width: 20px;
+    margin: 0 auto;
+    top: 6px;
+    font-size: 18px;
+}
+button.upload svg.fa-circle-notch {
+    display: none !important;
+}
+button.upload.loading{
+	position:relative;
+}
+button.upload.loading svg.fa-circle-notch {
+    display: block !important;
+}
+.user-data-area > div {
+    float: left;
+}
+.user-data-area > div.cloud-server-user {
+    float: right;
+}
+.cloud-server-user > svg {
+    margin-right: 5px;
+    font-size: 12px;
+    position: relative;
+    top: -1px;
+}
+.user-data-area > div.cloud-server-user .option {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    top: 18px;
+    width: 150px;
+    right: 0;
+    z-index: 99;
+    background: #e3e3e3;
+    display: none;
+    box-shadow: 0 1px 3px #0000008a;
+    list-style: none;
+    font-size: 12px;
+}
+.user-data-area > div.cloud-server-user .option li {
+    padding: 4px 10px;
+    cursor: pointer;
+	color:#333;
+}
+.user-data-area  .user-option.user-open .option {
+    display: block;
+}
+.user-data-area > div.cloud-server-user {
+    cursor: pointer;
+    position: relative;
+}
+.notification {
+    background: #000000c9;
+    width: auto;
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 6px;
+    color: #fff;
+    position: fixed;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    cursor: none;
+    z-index: 999;
+}
+/*---------Top File Manager Bar------------|END---------*/
+@media(max-width:767px){
+	[mobile="true"] {
+		position: fixed;
+		width: 100%;
+		bottom: -102% !important;
+		top: auto !important;
+		left: 0 !important;
+		right: 0 !important;
+		transition: bottom 0.3s linear;
+		box-shadow: 0 0px 5px #0000003d;
+	}
+	[mobile="true"].open {
+		bottom: 0 !important;
+		transition: bottom 0.3s linear;
+	}
+	.cm-address-bar-search > div.address-search {
+		width: 50%;
+	}
+	.cm-address-bar-search > div.search-file-and-folder {
+		width: calc(50% - 68px);
+	}
+	.uploads-folder-files {
+		width: 67px;
+	}
+	.uploads-folder-files .upload {
+		font-size: 0;
+	}
+	.uploads-folder-files .upload svg {
+		font-size: 13px;
+		margin: 0;
+	}
+	.cm-address-bar-search {
+		overflow: hidden;
+	}
+	.append-option-box>div>div {
+		padding: 10px 15px;
+		font-size: 20px;
+	}
+}
+/*-----------File Upload-----------------|Start---------*/
+.file-input-box {
+    border: 5px dashed #e4e4e4;
+    padding: 50px 20px 20px;
+    position: relative;
+}
+.file-input-box:before {
+    content: "Drag files to this area or select";
+    position: absolute;
+    top: 18px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    color: #e4e4e4;
+    user-select: none;
+	left: 0;
+}
+.file-input-box > div {
+    width: 48%;
+    float: left;
+    text-align: center;
+    min-height: 150px;
+    line-height: 150px;
+    font-size: 60px;
+    cursor: pointer;
+    background: #e4e4e4;
+    box-shadow: 1px 1px 4px #00000073;
+    margin-right: 4%;
+    transform: translateY(0);
+    transition: all 0.1s linear;
+}
+.file-input-box > div input {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+	opacity: 0;
+	cursor:pointer;
+	z-index: 99;
+}
+.file-input-box > div:active {
+    transform: translateY(3px);
+}
+.file-input-box > div:last-child {
+    margin-right: 0;
+    float: right;
+}
+.file-input-box > div span {
+    display: block;
+    font-size: 13px;
+    flex-wrap: wrap;
+    line-height: 1.2;
+    position: relative;
+    top: -35px;
+}
+.loading-bar-outer {
+    width: 100%;
+    position: relative;
+    border: 1px solid #e4e4e4;
+    height: 20px;
+}
+.loading-bar-outer .bar {
+    position: absolute;
+    background: #333333;
+    display: block;
+    width: 34%;
+    height: 100%;
+    transition: all 0.2s linear;
+}
+.loading-bar-outer .bar-text {
+    position: absolute;
+    color: #00000073;
+    width: 100%;
+    text-align: center;
+    height: 20px;
+    line-height: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    user-select: none;
+}
+/*-----------File Upload-----------------|END---------*/

